@@ -1,11 +1,11 @@
-import dns from "dns";
+ import dns from "dns";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 
-// Import Routes (Sirf ek baar)
+// Import Routes
 import authRoutes from './src/routes/authRoutes.js';
 import attendanceRoutes from './src/routes/attendanceRoutes.js';
 import leaveRoutes from './src/routes/leaveRoutes.js';
@@ -14,7 +14,8 @@ import userRoutes from './src/routes/userRoutes.js';
 
 const app = express();
 
-const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
+// Allowed Origins (Local aur Vercel Production URLs dono included hain)
+const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173,https://hcml-azure.vercel.app')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -34,7 +35,7 @@ app.use(
   })
 );
 
-// Body parsers aur cookie parser hamesha routes se pehle hone chahiye
+// Body parsers & cookie parser
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(cookieParser());
@@ -48,7 +49,7 @@ app.get('/api/health', (_req, res) => {
   });
 });
 
-// Mount Feature Routes (Sirf ek dafa yahan mount honge)
+// Mount Feature Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/leaves', leaveRoutes);
