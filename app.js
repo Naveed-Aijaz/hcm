@@ -46,7 +46,7 @@ const toOrigin = (value) => {
 
 
 
- const allowedOrigins = ( process.env.CLIENT_URL || 'https://hcml-oulu2nx8s-naveed-aijazs-projects.vercel.app' ) .split(',') .map((origin) => origin.trim().replace(//+$/, '')) .filter(Boolean);
+ const allowedOrigins = ( process.env.CLIENT_URL || 'https://hcml-azure.vercel.app/' ) .split(',') .map((origin) => origin.trim().replace(//+$/, '')) .filter(Boolean);
 
 app.disable('x-powered-by'); app.use(helmet());
 
