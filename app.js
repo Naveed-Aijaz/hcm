@@ -25,22 +25,34 @@ const toOrigin = (value) => {
     return null;
   }
 };
-const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
-  .split(',')
-  .map((o) => toOrigin(o.trim()))
-  .filter(Boolean);
+// const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
+//   .split(',')
+//   .map((o) => toOrigin(o.trim()))
+//   .filter(Boolean);
 
-app.disable('x-powered-by');
-app.use(helmet());
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-      return callback(Object.assign(new Error('Origin not allowed by CORS'), { code: 'CORS_NOT_ALLOWED' }));
-    },
-    credentials: true,
-  })
-);
+// app.disable('x-powered-by');
+// app.use(helmet());
+// app.use(
+//   cors({
+//     origin(origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+//       return callback(Object.assign(new Error('Origin not allowed by CORS'), { code: 'CORS_NOT_ALLOWED' }));
+//     },
+//     credentials: true,
+//   })
+// );
+
+
+
+
+
+ const allowedOrigins = ( process.env.CLIENT_URL || 'https://hcml-oulu2nx8s-naveed-aijazs-projects.vercel.app' ) .split(',') .map((origin) => origin.trim().replace(//+$/, '')) .filter(Boolean);
+
+app.disable('x-powered-by'); app.use(helmet());
+
+app.use( cors({ origin(origin, callback) { if (!origin || allowedOrigins.includes(origin)) { return callback(null, true); } return callback(new Error('Origin not allowed by CORS')); }, credentials: true, }) );
+ 
+
 
 // Check-in photos are base64 JPEGs; Vercel itself caps request bodies at ~4.5 MB.
 app.use(express.json({ limit: '3mb' }));
